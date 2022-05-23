@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://noda.io/api/includes/noda.js"></script>
+
+    <title>Noda Plugin Starter</title>
+
+    <script>
+
+        var statusElement;
+        var statusMessageElement;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            statusElement = document.getElementById('status');
+            statusMessageElement = document.getElementById('statusMessage');
+            eventsMessageElement = document.getElementById('eventsMessage');
+
+            window.noda.onNodeCreated = function (node) { eventMessage("Node created with uuid: " + node.uuid); }
+            window.noda.onNodeUpdated = function (node) {
+                 eventMessage("Node updated with uuid: " + node.uuid);
+                 if(node.selected) {
+                     showNodeProps(node);
+                 }
+            }
+            window.noda.onNodeDeleted = function (node) { eventMessage("Node deleted with uuid: " + node.uuid); }
+
+            window.noda.onLinkCreated = function (link) { eventMessage("Link created with uuid: " + link.uuid); }
+            window.noda.onLinkUpdated = function (link) {
+                 eventMessage("Link updated with uuid: " + link.uuid);
+                 if(link.selected) {
+                     showLinkProps(link);
+                 }
+            }
+            window.noda.onLinkDeleted = function (link) { eventMessage("Link deleted with uuid: " + link.uuid); } 
+
+        }, false);
+
+        function statusSuccess(message) {
+            statusMessageElement.textContent = message;
+            statusElement.classList.remove('error');
+            statusElement.classList.add('success');
+        }
+
+        function statusError(message) {
+            statusMessageElement.textContent = message;
+            statusElement.classList.add('error');
+            statusElement.classList.remove('success');
+        }
+
+        function eventMessage(message) {
+            eventsMessageElement.innerHTML = message + "<br/>" + eventsMessageElement.innerHTML;
+        }
+
+        async function createNode() {
+            try {
+                var nodeProps = obtainNodeProps();
+
+                const node = await window.noda.createNode(nodeProps);
+
+                //You can supply a Uuid or one will be assigned at creation time
+                document.getElementById('nodeUuid').value = node.uuid;
+
+                statusSuccess("Node created with uuid: " + node.uuid);
+
+            } catch(error) {
+                statusError("Node create error: " + error);
+            }
+        }
+
+        async function updateNode() {
+            try {
+                var nodeProps = obtainNodeProps();
+
+                const node = await window.noda.updateNode(nodeProps);
+
+                statusSuccess("Node updated with uuid: " + node.uuid);
+
+            } catch (error) {
+                statusError("Node update error: " + error);
+            }
+        }
+
+        async function deleteNode() {
+            try {
+                var nodeProps = {};
+
+                nodeProps.uuid = document.getElementById('nodeUuid').value;
+
+                const node = await window.noda.deleteNode(nodeProps);
+
+                statusSuccess("Node deleted with uuid: " + node.uuid);
+
+            } catch (error) {
+                statusError("Node delete error: " + error);
+            }
+        }
+
+        function obtainNodeProps()
+        {
+            var nodeProps = {};
+
+            nodeProps.uuid = document.getElementById('nodeUuid').value;
+            nodeProps.title = document.getElementById('nodeTitle').value;
+            nodeProps.color = document.getElementById('nodeColor').value;
+            nodeProps.opacity = parseFloat(document.getElementById('nodeOpacity').value);
+            nodeProps.shape = document.getElementById('nodeShape').value;
+            nodeProps.imageUrl = document.getElementById('nodeImageUrl').value;
+            nodeProps.notes = document.getElementById('nodeNotes').value;
+            nodeProps.pageUrl = document.getElementById('nodePageUrl').value;
+            nodeProps.size = parseFloat(document.getElementById('nodeSize').value);
+
+            nodeProps.location = {};
+
+            nodeProps.location.x = parseFloat(document.getElementById('nodeX').value);
+            nodeProps.location.y = parseFloat(document.getElementById('nodeY').value);
+            nodeProps.location.z = parseFloat(document.getElementById('nodeZ').value);
+            nodeProps.location.x = nodeProps.location.x != NaN ? nodeProps.location.x : 0;
+            nodeProps.location.y = nodeProps.location.y != NaN ? nodeProps.location.y : 0;
+            nodeProps.location.z = nodeProps.location.z != NaN ? nodeProps.location.z : 0;
+
+            nodeProps.location.relativeTo = document.getElementById('nodeRelativeTo').value;
+
+            nodeProps.selected = document.getElementById('nodeSelected').checked;
+            nodeProps.collapsed = document.getElementById('nodeCollapsed').checked;
+
+            return nodeProps;
+        }
+
+        function showNodeProps(nodeProps) {
+
+            document.getElementById('nodeUuid').value = nodeProps.uuid;
+            document.getElementById('nodeTitle').value = nodeProps.title;
+            document.getElementById('nodeColor').value = nodeProps.color;
+            document.getElementById('nodeOpacity').value = nodeProps.opacity;
+            document.getElementById('nodeShape').value = nodeProps.shape;
+            document.getElementById('nodeImageUrl').value = nodeProps.imageUrl;
+            document.getElementById('nodeNotes').value = nodeProps.notes;
+            document.getElementById('nodePageUrl').value = nodeProps.pageUrl;
+            document.getElementById('nodeSize').value = nodeProps.size;
+
+            document.getElementById('nodeX').value = nodeProps.location.x;
+            document.getElementById('nodeY').value = nodeProps.location.y;
+            document.getElementById('nodeZ').value = nodeProps.location.z;
+
+            document.getElementById('nodeRelativeTo').value = nodeProps.location.relativeTo;
+
+            document.getElementById('nodeSelected').checked = nodeProps.selected;
+            document.getElementById('nodeCollapsed').checked = nodeProps.collapsed;
+
+            return nodeProps;
+        }
+
+        async function createLink()
+        {
+            try {
+                var linkProps = obtainLinkProps();
+
+                const link = await window.noda.createLink(linkProps);
+
+                //You can supply a Uuid or one will be assigned at creation time
+                document.getElementById('linkUuid').value = link.uuid;
+
+                statusSuccess("Link created with uuid: " + link.uuid);
+
+            } catch (error) {
+                statusError("Link create error: " + error);
+            }
+        }
+
+        async function updateLink() {
+            try {
+                var linkProps = obtainLinkProps();
+
+                const link = await window.noda.updateLink(linkProps);
+
+                statusSuccess("Link updated with uuid: " + link.uuid);
+
+            } catch (error) {
+                statusError("Link update error: " + error);
+            }
+        }
+
+        async function deleteLink() {
+            try {
+                var linkProps = {};
+
+                linkProps.uuid = document.getElementById('linkUuid').value;
+
+                const link = await window.noda.deleteLink(linkProps);
+
+                statusSuccess("Link deleted with uuid: " + link.uuid);
+
+            } catch (error) {
+                statusError("Link delete error: " + error);
+            }
+        }
+
+        function obtainLinkProps() {
+            var linkProps = {};
+
+            linkProps.uuid = document.getElementById('linkUuid').value;
+            linkProps.fromUuid = document.getElementById('linkFromUuid').value;
+            linkProps.toUuid = document.getElementById('linkToUuid').value;
+
+            linkProps.title = document.getElementById('linkTitle').value;
+            linkProps.color = document.getElementById('linkColor').value;
+            linkProps.shape = document.getElementById('linkShape').value;
+            linkProps.size = parseFloat(document.getElementById('linkSize').value);
+
+            linkProps.selected = document.getElementById('linkSelected').checked;
+
+            return linkProps;
+        }
+
+        function showLinkProps(linkProps) {
+
+            document.getElementById('linkUuid').value = linkProps.uuid;
+            document.getElementById('linkFromUuid').value = linkProps.fromUuid;
+            document.getElementById('linkToUuid').value = linkProps.toUuid;
+            document.getElementById('linkTitle').value = linkProps.title;
+            document.getElementById('linkColor').value = linkProps.color;
+            document.getElementById('linkShape').value = linkProps.shape;
+            document.getElementById('linkSize').value = linkProps.size;
+            document.getElementById('linkSelected').selected = linkProps.checked;
+
+            return linkProps;
+        }
+
+    </script>
+
+    <style>
+        h1 {font-size:medium}
+        body {padding:20px}
+        .node-form  label {display: inline-block; width: 28%}
+        .link-form  label {display: inline-block; width: 32%}
+        .status.error {background-color: rgb(241, 169, 169);}
+        .status.success {background-color: rgb(189, 235, 189);}
+        .status {margin: 15px 0; padding: 10px; background-color: bisque; height: 75px; overflow-y:auto;}
+        .status p {margin-bottom: 0;}
+        .status span {font-size: 80%; font-weight: bold;}
+        .events {margin: 15px 0; padding: 10px; background-color: blanchedalmond; height: 127px; overflow-y:auto;}
+        .events span {font-family: monospace; font-size: 85%;}
+        .crud-form { padding: 15px; background-color:aliceblue}
+        .crud-form input[type='button'] {margin-right: 10}
+
+        #nodeColor {width: 5em;}
+        #nodeShape {width: 7em;}
+        #nodeRelativeTo {width:6em;}        
+        #linkColor {width:6em;}        
+        #linkShape {width:6em;}
+
+        #nodeSelected {margin-right:100px}
+    </style>
+</head>
+
+<body>
+    <h1>Noda Web API Test</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+
+                <div class="crud-form node-form">
+                    <h2>Node</h2>
+
+                    <p>
+                        <label for="nodeUuid">Uuid:</label> <input id="nodeUuid" type="text" size="30"/>
+                    </p>
+
+                    <p>
+                        <label for="nodeTitle">Title:</label> <input id="nodeTitle" type="text" size="30"/>
+                    </p>
+
+                    <p>
+                        <label for="nodeColor">Color:</label>
+                        <select id="nodeColor">
+                            <option name="Green" value="4CAF50">Green</option>
+                            <option name="Blue" value="2196F3">Blue</option>
+                            <option name="Red" value="F44336">Red</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="nodeOpacity">Opacity:</label> 
+                        <input id="nodeOpacity" type="range" min="0" max="1" step=".1" value="1" />
+                    </p>
+
+                    <p>
+                        <label for="nodeShape">Shape:</label>
+                        <select id="nodeShape">
+                            <option value="Ball">Ball</option>
+                            <option value="Box">Box</option>
+                            <option value="Tetra">Tetra</option>
+                            <option value="Cylinder">Cylinder</option>
+                            <option value="Diamond">Diamond</option>
+                            <option value="Hourglass">Hourglass</option>
+                            <option value="Plus">Plus</option>
+                            <option value="Star">Star</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="nodeImageUrl">ImageUrl:</label> <input id="nodeImageUrl" type="text" size="30"/>
+                    </p>
+
+                    <p>
+                        <label for="nodeNotes">Notes:</label> <textarea id="nodeNotes" cols="28"></textarea>
+                    </p>
+
+                    <p>
+                        <label for="nodePageUrl">PageUrl:</label> <input id="nodePageUrl" type="text" size="30"/>
+                    </p>
+
+                    <p>
+                        <label for="nodeSize">Size:</label> <input id="nodeSize" type="range" min="1" max="9" value="5" />
+                    </p>
+
+                    <p>
+                        <label>Location:</label>
+                            x: <input id="nodeX" type="text" value=".15" size="5" /> y: <input id="nodeY" type="text" value=".025" size="5" /> z: <input id="nodeZ" type="text" value="-0.15" size="5" />
+                    </p>
+
+                    <p>
+                        <label for="nodeRelativeTo">Relative To:</label>
+                        <select id="nodeRelativeTo">
+                            <option value="Origin">Origin</option>
+                            <option value="User">User</option>
+                            <option value="Window" selected>Window</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="nodeSelected">Selected:</label> <input id="nodeSelected" type="checkbox" />
+                        <label for="nodeCollapsed">Collapsed:</label> <input id="nodeCollapsed" type="checkbox" />
+                    </p>
+
+                    <p>
+                        <input type="button" value="Create Node" onclick="createNode()" />
+                        <input type="button" value="Update Node" onclick="updateNode()" />
+                        <input type="button" value="Delete Node" onclick="deleteNode()" />
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-6" >
+                <div class="crud-form link-form">
+                    <h2>Link</h2>
+                    
+                    <p>
+                        <label for="linkUuid">Uuid:</label> <input id="linkUuid" type="text" size="30" />
+                    </p>
+
+                    <p>
+                        <label for="linkFromUuid">From Node Uuid:</label> <input id="linkFromUuid" type="text" size="30"/>
+                    </p>
+
+                    <p>
+                        <label for="linkToUuid">To Node Uuid:</label> <input id="linkToUuid" type="text" size="30"/>
+                    </p>
+
+                    <p>
+                        <label for="linkTitle">Title:</label> <input id="linkTitle" type="text" size="30"/>
+                    </p>
+                    
+                    <p>
+                        <label for="linkColor">Color:</label>
+                        <select id="linkColor">
+                            <option name="Black" value="111111">Black</option>
+                            <option name="White" value="EEEEEE">White</option>
+                        </select>
+                    </p>
+                        
+                    <p>
+                        <label for="linkShape">Pattern:</label>
+                        <select id="linkShape">
+                            <option value="Solid">Solid</option>
+                            <option value="Dash">Dash</option>
+                            <option value="Arrows">Arrows</option>
+                        </select>
+                    </p>
+                    
+                    <p>
+                        <label for="linkSize">Thickness:</label> <input id="linkSize" type="range" min="1" max="9" value="1" />
+                    </p>
+                        
+                    <p>
+                        <label for="linkSelected">Selected:</label> <input id="linkSelected" type="checkbox" />
+                    </p>
+                    
+                    <p>
+                        <input type="button" value="Create Link" onclick="createLink()" />
+                        <input type="button" value="Update Link" onclick="updateLink()" />
+                        <input type="button" value="Delete Link" onclick="deleteLink()" />
+                    </p>
+                </div>
+
+                <div id="status" class="status success"><p>Status: <span id="statusMessage"></span></p></div>
+
+                <div id="events" class="events"><p>Events:<br/><span id="eventsMessage"></span></p></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
