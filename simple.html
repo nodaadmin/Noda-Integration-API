@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <script src="https://noda.io/api/includes/noda.js"></script>
+    <script src="../includes/noda.js"></script>
 
     <title>Noda Plugin Starter</title>
 
@@ -42,7 +42,27 @@
             }
             window.noda.onLinkDeleted = function (link) { eventMessage("Link deleted with uuid: " + link.uuid); } 
 
+            window.noda.onInitialized = function () {
+                if (!window.noda.isInstalled())
+                    statusError("Noda VR context not found, please try from within VR app.");
+                else
+                    populateUser();
+            }
+
         }, false);
+
+        async function populateUser()
+        {
+            try {
+                console.log("Calling getUser");
+                const user = await window.noda.getUser();
+                console.log("Returned from getUser with value: " + user.userId);
+                document.getElementById('userId').textContent = user.userId;
+            } catch (error) {
+                statusError("Get User error: " + error);
+            }
+
+        }
 
         function statusSuccess(message) {
             statusMessageElement.textContent = message;
@@ -59,6 +79,10 @@
         function eventMessage(message) {
             eventsMessageElement.innerHTML = message + "<br/>" + eventsMessageElement.innerHTML;
         }
+
+        function clearEvents() {
+            eventsMessageElement.innerHTML = "";
+        }    
 
         async function createNode() {
             try {
@@ -101,6 +125,24 @@
 
             } catch (error) {
                 statusError("Node delete error: " + error);
+            }
+        }
+
+        async function listNodes() {
+            try {
+                var nodeProps = obtainNodeProps();
+
+                const result = await window.noda.listNodes(nodeProps);
+
+                let count = 0;
+
+                if(result != null && result.nodes != null)
+                    count = result.nodes.length;
+
+                statusSuccess("List Nodes returned " + count + " nodes");
+
+            } catch (error) {
+                statusError("List Nodes error: " + error);
             }
         }
 
@@ -204,6 +246,24 @@
             }
         }
 
+        async function listLinks() {
+            try {
+                var linkProps = obtainLinkProps();
+
+                const result = await window.noda.listLinks(linkProps);
+
+                let count = 0;
+
+                if (result != null && result.links != null)
+                    count = result.links.length;
+
+                statusSuccess("List Links returned " + count + " links");
+
+            } catch (error) {
+                statusError("List Links error: " + error);
+            }
+        }
+
         function obtainLinkProps() {
             var linkProps = {};
 
@@ -248,7 +308,7 @@
         .status p {margin-bottom: 0;}
         .status span {font-size: 80%; font-weight: bold;}
         .events {margin: 15px 0; padding: 10px; background-color: blanchedalmond; height: 127px; overflow-y:auto;}
-        .events span {font-family: monospace; font-size: 85%;}
+        .events #eventsMessage {font-family: monospace; font-size: 85%;}
         .crud-form { padding: 15px; background-color:aliceblue}
         .crud-form input[type='button'] {margin-right: 10}
 
@@ -263,7 +323,7 @@
 </head>
 
 <body>
-    <h1>Noda Web API Test</h1>
+    <h1>Noda Web API Test (User: <span id="userId"></span>)</h1>
 
     <div class="container-fluid">
         <div class="row">
@@ -326,7 +386,7 @@
 
                     <p>
                         <label>Location:</label>
-                            x: <input id="nodeX" type="text" value=".15" size="5" /> y: <input id="nodeY" type="text" value=".025" size="5" /> z: <input id="nodeZ" type="text" value="-0.15" size="5" />
+                            x: <input id="nodeX" type="text" value=".15" size="4" /> y: <input id="nodeY" type="text" value=".025" size="4" /> z: <input id="nodeZ" type="text" value="-0.15" size="4" />
                     </p>
 
                     <p>
@@ -347,6 +407,7 @@
                         <input type="button" value="Create Node" onclick="createNode()" />
                         <input type="button" value="Update Node" onclick="updateNode()" />
                         <input type="button" value="Delete Node" onclick="deleteNode()" />
+                        <input type="button" value="List Nodes" onclick="listNodes()" />
                     </p>
 
                 </div>
@@ -375,8 +436,8 @@
                     <p>
                         <label for="linkColor">Color:</label>
                         <select id="linkColor">
-                            <option name="Black" value="111111">Black</option>
-                            <option name="White" value="EEEEEE">White</option>
+                            <option name="Black" value="171717">Black</option>
+                            <option name="White" value="D7D7D7">White</option>
                         </select>
                     </p>
                         
@@ -401,12 +462,13 @@
                         <input type="button" value="Create Link" onclick="createLink()" />
                         <input type="button" value="Update Link" onclick="updateLink()" />
                         <input type="button" value="Delete Link" onclick="deleteLink()" />
+                        <input type="button" value="List Links" onclick="listLinks()" />
                     </p>
                 </div>
 
                 <div id="status" class="status success"><p>Status: <span id="statusMessage"></span></p></div>
 
-                <div id="events" class="events"><p>Events:<br/><span id="eventsMessage"></span></p></div>
+                <div id="events" class="events"><p>Events: <span style="float:right;margin-right:10px"><a href="#" onclick="clearEvents()">Clear</a></span><br/><span id="eventsMessage"></span></p></div>
             </div>
         </div>
     </div>
