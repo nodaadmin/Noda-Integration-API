@@ -9,4 +9,4 @@ This is an easy and powerful way to create an XR data visualization without the 
 
 The simple.html shows a set of forms for creating, updating and deleting nodes and links in the VR scene. It also shows event handling for reacting to changes the user makes in the VR scene.
 
-For more information about the API includin reference documentation please visit our [website](https://noda.io/documentation/webapi.html).
+For more information about the API including reference documentation please visit our [website](https://noda.io/documentation/webapi.html).
