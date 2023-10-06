@@ -264,6 +264,41 @@
             }
         }
 
+        async function saveMap() {
+            try {
+                const result = await window.noda.saveJson();
+
+                savedMapJsonText = result.jsonString;
+                
+                statusSuccess("Map saved");
+
+            } catch (error) {
+                statusError("Save Map error: " + error);
+            }
+        }
+        
+        async function loadMap() {
+            try {
+                const result = await window.noda.loadJson({jsonString:savedMapJsonText});
+
+                statusSuccess("Map loaded");
+
+            } catch (error) {
+                statusError("Load Map error: " + error);
+            }
+        }
+        
+        async function clearMap() {
+            try {
+                const result = await window.noda.clearMap();
+
+                statusSuccess("Map cleared");
+
+            } catch (error) {
+                statusError("Clear Map error: " + error);
+            }
+        }
+
         function obtainLinkProps() {
             var linkProps = {};
 
@@ -275,6 +310,8 @@
             linkProps.color = document.getElementById('linkColor').value;
             linkProps.shape = document.getElementById('linkShape').value;
             linkProps.size = parseFloat(document.getElementById('linkSize').value);
+            linkProps.curve = document.getElementById('linkCurve').value;
+            linkProps.trail = document.getElementById('linkTrail').value;
 
             linkProps.selected = document.getElementById('linkSelected').checked;
 
@@ -290,6 +327,9 @@
             document.getElementById('linkColor').value = linkProps.color;
             document.getElementById('linkShape').value = linkProps.shape;
             document.getElementById('linkSize').value = linkProps.size;
+            document.getElementById('linkCurve').value = linkProps.curve;
+            document.getElementById('linkTrail').value = linkProps.trail;
+            
             document.getElementById('linkSelected').selected = linkProps.checked;
 
             return linkProps;
@@ -311,6 +351,9 @@
         .events #eventsMessage {font-family: monospace; font-size: 85%;}
         .crud-form { padding: 15px; background-color:aliceblue}
         .crud-form input[type='button'] {margin-right: 10}
+        .map-form {margin-top: 15px}
+        
+        div.crud-form p {margin-bottom: .9rem}
 
         #nodeColor {width: 5em;}
         #nodeShape {width: 7em;}
@@ -411,6 +454,17 @@
                     </p>
 
                 </div>
+
+                <div class="crud-form map-form">
+                    <h2>Map</h2>
+                    
+                    <p>
+                        <input type="button" value="Save Map" onclick="saveMap()" />
+                        <input type="button" value="Load Map" onclick="loadMap()" />
+                        <input type="button" value="Clear Map" onclick="clearMap()" />
+                    </p>
+
+                </div>
             </div>
 
             <div class="col-6" >
@@ -453,7 +507,28 @@
                     <p>
                         <label for="linkSize">Thickness:</label> <input id="linkSize" type="range" min="1" max="9" value="1" />
                     </p>
-                        
+
+                    <p>
+                        <label for="linkCurve">Curve:</label>
+                        <select id="linkCurve">
+                            <option value="None">None</option>
+                            <option value="CDown">C Down</option>
+                            <option value="CUp">C Up</option>
+                            <option value="SDown">S Down</option>
+                            <option value="SUp">S Up</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="linkTrail">Trail:</label>
+                        <select id="linkTrail">
+                            <option value="None">None</option>
+                            <option value="Cone">Cone</option>
+                            <option value="Ball">Ball</option>
+                            <option value="Ring">Ring</option>
+                        </select>
+                    </p>
+
                     <p>
                         <label for="linkSelected">Selected:</label> <input id="linkSelected" type="checkbox" />
                     </p>
