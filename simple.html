@@ -130,19 +130,47 @@
 
         async function listNodes() {
             try {
-                var nodeProps = obtainNodeProps();
+                var nodeProps = {};
 
                 const result = await window.noda.listNodes(nodeProps);
 
                 let count = 0;
 
-                if(result != null && result.nodes != null)
+                if(result != null && result.nodes != null) {
                     count = result.nodes.length;
+
+                    result.nodes.forEach(n => { 
+                        eventMessage("ListNodes - uuid: <a href=\"#\" onclick=\"getNode('" + n.uuid + "')\">" + n.uuid + "</a>");
+                    });
+
+                }
 
                 statusSuccess("List Nodes returned " + count + " nodes");
 
             } catch (error) {
                 statusError("List Nodes error: " + error);
+            }
+        }
+
+        async function getNode( nodeUuid ) {
+            try {
+                console.log("Calling getNode()" + nodeUuid);                
+                var linkProps = { 
+                    uuid: nodeUuid 
+                };
+                console.log("Built Prop" + linkProps);                
+
+                const result = await window.noda.listNodes(linkProps);
+
+                if (result != null && result.nodes != null) {
+                    statusSuccess("Found Node : " + nodeUuid);
+                    result.nodes.forEach(n => { 
+                        showNodeProps(n);
+                    });
+                }
+
+            } catch (error) {
+                statusError("Get Node error: " + error);
             }
         }
 
@@ -248,21 +276,50 @@
 
         async function listLinks() {
             try {
-                var linkProps = obtainLinkProps();
+                var linkProps = {};
 
                 const result = await window.noda.listLinks(linkProps);
 
                 let count = 0;
 
-                if (result != null && result.links != null)
+                if (result != null && result.links != null) {
                     count = result.links.length;
+                    result.links.forEach(l => { 
+                        eventMessage("ListLinks - uuid: <a href=\"#\" onclick=\"getLink('" + l.uuid + "')\">" + l.uuid + "</a>");
+                    });
+
+                }
 
                 statusSuccess("List Links returned " + count + " links");
+
 
             } catch (error) {
                 statusError("List Links error: " + error);
             }
         }
+
+        async function getLink( linkUuid ) {
+            try {
+                console.log("Calling getLink()" + linkUuid);                
+                var linkProps = { 
+                    uuid: linkUuid 
+                };
+                console.log("Built Prop" + linkProps);                
+
+                const result = await window.noda.listLinks(linkProps);
+
+                if (result != null && result.links != null) {
+                    statusSuccess("Found Link : " + linkUuid);
+                    result.links.forEach(l => { 
+                        showLinkProps(l);
+                    });
+                }
+
+            } catch (error) {
+                statusError("Get Link error: " + error);
+            }
+        }
+
 
         var savedMapJsonText = null;
         
@@ -349,7 +406,7 @@
         .status {margin: 15px 0; padding: 10px; background-color: bisque; height: 75px; overflow-y:auto;}
         .status p {margin-bottom: 0;}
         .status span {font-size: 80%; font-weight: bold;}
-        .events {margin: 15px 0; padding: 10px; background-color: blanchedalmond; height: 127px; overflow-y:auto;}
+        .events {margin: 15px 0; padding: 10px; background-color: blanchedalmond; height: 327px; overflow-y:auto;}
         .events #eventsMessage {font-family: monospace; font-size: 85%;}
         .crud-form { padding: 15px; background-color:aliceblue}
         .crud-form input[type='button'] {margin-right: 10}
@@ -410,6 +467,7 @@
                             <option value="Hourglass">Hourglass</option>
                             <option value="Plus">Plus</option>
                             <option value="Star">Star</option>
+                            <option value="Flat">Flat</option>
                         </select>
                     </p>
 
@@ -494,6 +552,9 @@
                         <select id="linkColor">
                             <option name="Black" value="171717">Black</option>
                             <option name="White" value="D7D7D7">White</option>
+                            <option name="Green" value="4CAF50">Green</option>
+                            <option name="Blue" value="2196F3">Blue</option>
+                            <option name="Red" value="F44336">Red</option>
                         </select>
                     </p>
                         
