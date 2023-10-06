@@ -1,0 +1,87 @@
+<mxfile host="Electron" modified="2023-10-06T14:09:13.122Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.2 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="PR5JQYlrWhQkAhjJfSG7" version="22.0.2" type="device">
+  <diagram name="Page-1" id="90a13364-a465-7bf4-72fc-28e22215d7a0">
+    <mxGraphModel dx="1336" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" style=";html=1;" />
+        <mxCell id="1" style=";html=1;" parent="0" />
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-1" value="Private WebServer" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="520" y="970" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-2" value="Noda VR" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=32;" vertex="1" parent="1">
+          <mxGeometry x="870" y="770" width="400" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-3" value="Noda&lt;br&gt;Browser&lt;br&gt;&amp;amp; Integration Script(s)" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-5" value="Noda Graph Management API" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-6" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="1030" y="1119.8" as="sourcePoint" />
+            <mxPoint x="1130" y="1119.8" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-18" value="Manages Nodes &amp;amp;&lt;br&gt;&amp;nbsp;Link Translations" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1hHF_TBkAN-ehXD5GL7K-6">
+          <mxGeometry x="0.016" y="-4" relative="1" as="geometry">
+            <mxPoint x="-1" y="-34" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-7" value="Private Integration API(s)" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="520" y="1080" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1hHF_TBkAN-ehXD5GL7K-8" target="1hHF_TBkAN-ehXD5GL7K-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="1hHF_TBkAN-ehXD5GL7K-8" target="1hHF_TBkAN-ehXD5GL7K-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-8" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="820" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-9" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="870" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-10" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="870" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-13" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.8;exitY=0.775;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="1200" y="1077" as="sourcePoint" />
+            <mxPoint x="1140" y="917" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-19" value="Manages and Monitors &lt;br&gt;in-App Graph Interaction&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1hHF_TBkAN-ehXD5GL7K-13">
+          <mxGeometry x="-0.1156" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-14" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="1hHF_TBkAN-ehXD5GL7K-3">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="610" y="1119.8" as="sourcePoint" />
+            <mxPoint x="710" y="1119.8" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-17" value="PROVIDES INTERATION DATA&lt;br&gt;BETWEEN YOUR INTEGRATION APIs" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1hHF_TBkAN-ehXD5GL7K-14">
+          <mxGeometry x="-0.2386" y="3" relative="1" as="geometry">
+            <mxPoint x="30" y="23" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-15" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" target="1hHF_TBkAN-ehXD5GL7K-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="1009.8" as="sourcePoint" />
+            <mxPoint x="660" y="1009.8" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="740" y="1010" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1hHF_TBkAN-ehXD5GL7K-16" value="SERVES INTEGRATION HTML &amp;amp; JAVASCRIPT" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rotation=0;" vertex="1" connectable="0" parent="1hHF_TBkAN-ehXD5GL7K-15">
+          <mxGeometry x="0.2696" y="1" relative="1" as="geometry">
+            <mxPoint x="-69" y="-49" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
